@@ -1,0 +1,1767 @@
+<!DOCTYPE HTML>
+<html lang="ko" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Neovim Golf - Introduction - Neovim Golf</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Neovim 에디터의 진정한 잠재력 활용하기">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Neovim Golf</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/partrita/nvim-golf" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/partrita/nvim-golf/edit/main/src/introduction.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- @generated This file is generated. Do not edit it by hand. -->
+<h1 id="neovim-golf"><a class="header" href="#neovim-golf">Neovim Golf</a></h1>
+<p>Neovim Golf는 차세대 확장형 텍스트 에디터인
+<a href="https://github.com/neovim/neovim">Neovim</a>을 사용한 리팩토링 및 텍스트 조작 예제 모음입니다.</p>
+<p>각 예제는 상세히 설명되어 있으며 최신 버전의 Neovim으로 테스트되었고 비디오 데모가 포함되어 있습니다.
+예제들은 단순한 가상이 아니며, 모두 실제 개발/편집 상황에서 유용한 조작들로 구성되었습니다.</p>
+<p>모달 편집(Modal Editing), 텍스트 객체(Text Objects), 레지스터, 글로벌 치환, 필터 명령 등 Neovim의 강력한 기능들을
+통해 더 효율적이고 직관적으로 텍스트를 편집하는 방법을 배울 수 있습니다.</p>
+<p>생산성이 향상될 뿐만 아니라 문제를 최소한의 키스트로크로 해결하는 재미를 느낄 수 있습니다!</p>
+<p>예제는 난이도별로 세 그룹으로 나뉩니다. 처음이라면 Beginner부터 순서대로 풀어보세요.</p>
+<h1 id="각-예제-데모"><a class="header" href="#각-예제-데모">각 예제 데모</a></h1>
+<details>
+<summary>모든 예제는 하나의 코드 블록으로도 제공됩니다</summary>
+<p>인터넷 없이도 Neovim에 복사하여 붙여넣고 직접 연습해 볼 수 있습니다!</p>
+<pre><code class="language-md"># Join Lines
+
+&lt;!-- difficulty: beginner --&gt;
+
+두 줄을 한 줄로 합칩니다.
+
+## Before
+
+```text
+hello
+world
+```
+
+## After
+
+```text
+hello world
+```
+
+## Command
+
+```
+J
+```
+
+1. `J` 현재 줄과 다음 줄을 공백을 두고 합치기
+
+# Extend Delete Words
+
+&lt;!-- difficulty: beginner --&gt;
+
+앞의 두 단어를 지웁니다.
+
+## Before
+
+```text
+one two three four
+```
+
+## After
+
+```text
+three four
+```
+
+## Command
+
+```
+2dw
+```
+
+1. `2dw` 두 단어를 삭제
+
+# Swap Lines
+
+&lt;!-- difficulty: beginner --&gt;
+
+두 줄의 순서를 바꿉니다.
+
+## Before
+
+```text
+first
+second
+```
+
+## After
+
+```text
+second
+first
+```
+
+## Command
+
+```
+ddp
+```
+
+1. `dd` 첫 번째 줄을 잘라내기
+1. `p` 아래 줄에 붙여넣기
+
+# Delete Blank Line
+
+&lt;!-- difficulty: beginner --&gt;
+
+빈 줄을 삭제합니다.
+
+## Before
+
+```text
+apple
+
+banana
+```
+
+## After
+
+```text
+apple
+banana
+```
+
+## Command
+
+```
+jdd
+```
+
+1. `j` 빈 줄로 이동
+1. `dd` 현재 줄 삭제
+
+# Rotate Main Selection
+
+&lt;!-- difficulty: beginner --&gt;
+
+마지막 숫자만 바꿉니다.
+
+## Before
+
+```text
+a1 a2 a3
+```
+
+## After
+
+```text
+a1 a2 a9
+```
+
+## Command
+
+```
+$r9
+```
+
+1. `$` 줄 끝으로 이동
+1. `r` 한 글자 교체
+1. `9` 교체할 문자 9 입력
+
+# Toggle Word Case
+
+&lt;!-- difficulty: beginner --&gt;
+
+단어의 대소문자를 뒤집습니다.
+
+## Before
+
+```text
+hello
+```
+
+## After
+
+```text
+HELLO
+```
+
+## Command
+
+```
+gUiw
+```
+
+1. `gUiw` 현재 단어를 모두 대문자로 변환
+
+# Duplicate Line
+
+&lt;!-- difficulty: beginner --&gt;
+
+한 줄을 복사해 세 줄로 늘립니다.
+
+## Before
+
+```text
+log
+```
+
+## After
+
+```text
+log
+log
+log
+```
+
+## Command
+
+```
+yyp.
+```
+
+1. `yy` 현재 줄 복사
+1. `p` 아래 줄에 붙여넣기
+1. `.` 이전 작업(붙여넣기) 반복
+
+# Increment Numbers
+
+&lt;!-- difficulty: beginner --&gt;
+
+여러 숫자를 한 번에 1씩 증가시킵니다.
+
+## Before
+
+```text
+0
+0
+0
+```
+
+## After
+
+```text
+1
+1
+1
+```
+
+## Command
+
+```
+&lt;ctrl-a&gt;j&lt;ctrl-a&gt;j&lt;ctrl-a&gt;
+```
+
+1. `&lt;ctrl-a&gt;` 첫 번째 줄 숫자 1 증가
+1. `j` 다음 줄로 이동
+1. `&lt;ctrl-a&gt;` 두 번째 줄 숫자 1 증가
+1. `j` 다음 줄로 이동
+1. `&lt;ctrl-a&gt;` 세 번째 줄 숫자 1 증가
+
+# Toggle Comment
+
+&lt;!-- difficulty: beginner --&gt;
+
+여러 줄을 한 번에 주석으로 바꿉니다.
+
+## Before
+
+```py
+print("a")
+print("b")
+print("c")
+```
+
+## After
+
+```py
+# print("a")
+# print("b")
+# print("c")
+```
+
+## Command
+
+```
+&lt;ctrl-v&gt;2jI# &lt;esc&gt;
+```
+
+1. `&lt;ctrl-v&gt;` Visual Block 모드 진입
+1. `2j` 아래 2줄 확장 선택
+1. `I` 블록 앞 삽입 모드 진입
+1. `# ` 주석 기호와 공백 입력
+1. `&lt;esc&gt;` 노멀 모드로 복귀하여 전체 적용
+
+# Sort Lines
+
+&lt;!-- difficulty: beginner --&gt;
+
+정렬되지 않은 줄들을 정렬합니다.
+
+## Before
+
+```text
+banana
+apple
+cherry
+```
+
+## After
+
+```text
+apple
+banana
+cherry
+```
+
+## Command
+
+```
+:%!sort&lt;cr&gt;
+```
+
+1. `:%!` 전체 버퍼를 외부 명령에 전달
+1. `sort` sort 정렬 명령
+1. `&lt;cr&gt;` 명령 실행
+
+# Format JSON with jq
+
+&lt;!-- difficulty: beginner --&gt;
+
+한 줄 JSON을 셸 필터로 보기 좋게 펼칩니다.
+
+## Before
+
+```json
+{"name": "helix", "stars": 100}
+```
+
+## After
+
+```json
+{
+  "name": "helix",
+  "stars": 100
+}
+```
+
+## Command
+
+```
+:%!jq .&lt;cr&gt;
+```
+
+1. `:%!` 전체 버퍼를 외부 명령의 표준 입출력으로 전달
+1. `jq .` jq 포맷팅 도구 실행
+1. `&lt;cr&gt;` 명령 실행
+
+# Replace an Identifier
+
+&lt;!-- difficulty: beginner --&gt;
+
+커서가 놓인 변수 이름을 다른 이름으로 변경합니다.
+
+## Before
+
+```rs
+count
+```
+
+## After
+
+```rs
+total
+```
+
+## Command
+
+```
+ciwtotal&lt;esc&gt;
+```
+
+1. `ciw` 단어 내부를 삭제하고 삽입 모드로 전환
+1. `total` 새 변수 이름 입력
+1. `&lt;esc&gt;` 노멀 모드로 복귀
+
+# Add Semicolons
+
+&lt;!-- difficulty: beginner --&gt;
+
+각 줄 끝에 세미콜론을 붙입니다.
+
+## Before
+
+```js
+const a = 1
+const b = 2
+const c = 3
+```
+
+## After
+
+```js
+const a = 1;
+const b = 2;
+const c = 3;
+```
+
+## Command
+
+```
+:%s/$/;/g&lt;cr&gt;
+```
+
+1. `:%s` 전체 파일 대상 치환 명령
+1. `/$/` 각 줄의 끝($) 위치를 검색
+1. `;/` 세미콜론으로 치환
+1. `g` 모든 일치 항목에 적용
+1. `&lt;cr&gt;` 명령 실행
+
+# Replace Punctuation
+
+&lt;!-- difficulty: beginner --&gt;
+
+여러 줄의 앞 기호를 한 번에 바꿉니다.
+
+## Before
+
+```text
+- apple
+- banana
+- cherry
+```
+
+## After
+
+```text
+* apple
+* banana
+* cherry
+```
+
+## Command
+
+```
+:%s/^-/*/&lt;cr&gt;
+```
+
+1. `:%s/^-/` 줄 시작 부분의 하이픈(-) 매칭
+1. `*/` 별표(*)로 교체
+1. `&lt;cr&gt;` 명령 실행
+
+# CSV to Lines
+
+&lt;!-- difficulty: beginner --&gt;
+
+쉼표로 구분된 한 줄을 여러 줄로 나눕니다.
+
+## Before
+
+```text
+apple,banana,cherry
+```
+
+## After
+
+```text
+apple
+banana
+cherry
+```
+
+## Command
+
+```
+:s/,/\r/g&lt;cr&gt;
+```
+
+1. `:s` 현재 줄 치환 명령
+1. `/,/` 쉼표(,) 검색
+1. `\r/` 줄바꿈(\r)으로 교체
+1. `g` 줄 내 모든 일치 항목에 적용
+1. `&lt;cr&gt;` 명령 실행
+
+# Indent Lines
+
+&lt;!-- difficulty: beginner --&gt;
+
+여러 줄을 한 번에 들여씁니다.
+
+## Before
+
+```text
+apple
+banana
+cherry
+```
+
+## After
+
+```text
+  apple
+  banana
+  cherry
+```
+
+## Command
+
+```
+:%s/^/  /g&lt;cr&gt;
+```
+
+1. `:%s` 전체 파일 치환
+1. `/^/` 각 줄의 시작(^) 위치 매칭
+1. `  /` 두 칸 공백 삽입
+1. `g` 전역 적용
+1. `&lt;cr&gt;` 명령 실행
+
+# Delete Surround
+
+&lt;!-- difficulty: beginner --&gt;
+
+여러 줄의 감싸는 괄호를 한 번에 제거합니다.
+
+## Before
+
+```text
+(use)
+(use)
+```
+
+## After
+
+```text
+use
+use
+```
+
+## Command
+
+```
+:%s/[()]//g&lt;cr&gt;
+```
+
+1. `:%s` 전체 파일 대상 치환
+1. `/[()]//` 여는 괄호와 닫는 괄호를 빈 문자열로 삭제
+1. `g` 모든 일치 항목에 적용
+1. `&lt;cr&gt;` 명령 실행
+
+# Multicursor Prefix
+
+&lt;!-- difficulty: intermediate --&gt;
+
+Visual Block 모드로 여러 줄 앞에 접두사를 동시에 삽입합니다.
+
+## Before
+
+```text
+apple
+banana
+cherry
+```
+
+## After
+
+```text
+fruit: apple
+fruit: banana
+fruit: cherry
+```
+
+## Command
+
+```
+&lt;ctrl-v&gt;2jIfruit: &lt;esc&gt;
+```
+
+1. `&lt;ctrl-v&gt;` Visual Block 모드 진입
+1. `2j` 아래로 2줄 확장
+1. `I` 블록 앞 삽입 모드 진입
+1. `fruit: ` 접두사 입력
+1. `&lt;esc&gt;` 노멀 모드로 복귀하여 모든 줄에 동시 적용
+
+# Fix Typo with Search
+
+&lt;!-- difficulty: beginner --&gt;
+
+검색으로 오타를 찾아 고칩니다.
+
+## Before
+
+```text
+roses are red
+violets are blu
+sugar is sweet
+```
+
+## After
+
+```text
+roses are red
+violets are blue
+sugar is sweet
+```
+
+## Command
+
+```
+/blu&lt;cr&gt;cwblue&lt;esc&gt;
+```
+
+1. `/blu&lt;cr&gt;` 오타 검색 후 이동
+1. `cw` 단어를 삭제하고 삽입 모드로 전환
+1. `blue` 올바른 단어 입력
+1. `&lt;esc&gt;` 노멀 모드로 복귀
+
+# Align Assignments
+
+&lt;!-- difficulty: intermediate --&gt;
+
+할당 연산자를 열에 맞춰 정렬합니다.
+
+## Before
+
+```text
+a = 1
+longer = 2
+mid = 3
+```
+
+## After
+
+```text
+a      = 1
+longer = 2
+mid    = 3
+```
+
+## Command
+
+```
+w5i &lt;esc&gt;jj^w3i &lt;esc&gt;
+```
+
+1. `w` 등호(=) 위치로 이동
+1. `5i &lt;esc&gt;` 등호 앞에 공백 5칸 삽입 후 노멀 모드 복귀
+1. `jj` 세 번째 줄로 이동
+1. `^w` 줄 첫 글자에서 등호(=) 위치로 이동
+1. `3i &lt;esc&gt;` 등호 앞에 공백 3칸 삽입 후 노멀 모드 복귀
+
+# Insert Sequence
+
+&lt;!-- difficulty: beginner --&gt;
+
+셸 출력을 커서 앞에 삽입합니다.
+
+## Before
+
+```text
+items:
+```
+
+## After
+
+```text
+1
+2
+3
+items:
+```
+
+## Command
+
+```
+:0read !seq 3&lt;cr&gt;
+```
+
+1. `:0read !seq 3` 파일 맨 앞(0번 라인)에 seq 3 명령 출력 삽입
+1. `&lt;cr&gt;` 명령 실행
+
+# Replace a Regex-Sensitive Literal
+
+&lt;!-- difficulty: intermediate --&gt;
+
+문서 전체에서 정규식 메타문자가 포함된 문자열을 다른 문자열로 한 번에 변경합니다.
+
+## Before
+
+```text
+C++ is widely used.
+I learned C++ before Rust.
+This project does not use C++ anymore.
+```
+
+## After
+
+```text
+Rust is widely used.
+I learned Rust before Rust.
+This project does not use Rust anymore.
+```
+
+## Command
+
+```
+:%s/C++/Rust/g&lt;cr&gt;
+```
+
+1. `:%s/` 전체 대상 치환
+1. `C++/` C++ 검색
+1. `Rust/` Rust로 치환
+1. `g` 줄 내 모든 일치 항목 적용
+1. `&lt;cr&gt;` 명령 실행
+
+# Wrap with Tag
+
+&lt;!-- difficulty: beginner --&gt;
+
+각 줄을 여는 태그와 닫는 태그로 감쌉니다.
+
+## Before
+
+```text
+apple
+banana
+```
+
+## After
+
+```text
+&lt;li&gt;apple&lt;/li&gt;
+&lt;li&gt;banana&lt;/li&gt;
+```
+
+## Command
+
+```
+:%s/.*/&lt;lt&gt;li&gt;&amp;&lt;lt&gt;\/li&gt;/&lt;cr&gt;
+```
+
+1. `:%s/.*/` 전체 파일의 각 줄 내용 매칭
+1. `&lt;lt&gt;li&gt;` 줄 앞에 여는 태그 삽입
+1. `&amp;` 매칭된 원래 텍스트
+1. `&lt;lt&gt;\/li&gt;/` 줄 뒤에 닫는 태그 삽입
+1. `&lt;cr&gt;` 명령 실행
+
+# Replace a Selection with the System Clipboard
+
+&lt;!-- difficulty: intermediate --&gt;
+
+레지스터를 활용하여 문자열을 복사하고 다른 위치의 문자열을 교체합니다.
+
+## Before
+
+```rs
+fn greet() {
+    println!("Hello, world!");
+}
+
+fn main() {
+    println!("Hello, Rust!");
+}
+```
+
+## After
+
+```rs
+fn greet() {
+    println!("Hello, Rust!");
+}
+
+fn main() {
+    println!("Hello, Rust!");
+}
+```
+
+## Command
+
+```
+/Rust&lt;cr&gt;yiwgg/world&lt;cr&gt;viwp
+```
+
+1. `/Rust&lt;cr&gt;` Rust 검색 및 이동
+1. `yiw` 단어(Rust) 복사
+1. `gg` 파일 시작으로 이동
+1. `/world&lt;cr&gt;` world 검색 및 이동
+1. `viw` 단어(world) 비주얼 선택
+1. `p` 복사해둔 텍스트로 덮어쓰기
+
+# Replace Surrounding Characters
+
+&lt;!-- difficulty: beginner --&gt;
+
+괄호를 대괄호로 변경합니다.
+
+## Before
+
+```text
+(use)
+(use)
+```
+
+## After
+
+```text
+[use]
+[use]
+```
+
+## Command
+
+```
+:%s/(\([^)]*\))/[\1]/g&lt;cr&gt;
+```
+
+1. `:%s/(\([^)]*\))/` 소괄호와 내부 내용 매칭 및 캡처
+1. `[\1]/g` 대괄호로 감싸도록 교체
+1. `&lt;cr&gt;` 명령 실행
+
+# Swap Columns
+
+&lt;!-- difficulty: beginner --&gt;
+
+두 열의 순서를 바꿉니다.
+
+## Before
+
+```text
+apple 1
+banana 2
+```
+
+## After
+
+```text
+1 apple
+2 banana
+```
+
+## Command
+
+```
+:%s/\(.*\) \(.*\)/\2 \1/&lt;cr&gt;
+```
+
+1. `:%s/\(.*\) \(.*\)/` 공백 기준 두 열 매칭 및 그룹 캡처
+1. `\2 \1/` 두 번째 열과 첫 번째 열의 위치 교환
+1. `&lt;cr&gt;` 명령 실행
+
+# Text into Array
+
+&lt;!-- difficulty: intermediate --&gt;
+
+줄바꿈으로 구분된 데이터를 문자열 배열로 결합합니다.
+
+## Before
+
+```text
+Hello
+This
+Is
+Helix
+```
+
+## After
+
+```js
+["Hello", "This", "Is", "Helix"]
+```
+
+## Command
+
+```
+:%s/.*/"&amp;"/&lt;cr&gt;:%s/\n\ze./, /g&lt;cr&gt;I[&lt;esc&gt;A]&lt;esc&gt;
+```
+
+1. `:%s/.*/"&amp;"/&lt;cr&gt;` 각 줄을 큰따옴표로 감싸기
+1. `:%s/\n\ze./, /g&lt;cr&gt;` 다음 줄이 존재하는 줄바꿈만 쉼표와 공백으로 치환
+1. `I[` 줄 맨 앞에 여는 대괄호([) 삽입
+1. `&lt;esc&gt;` 노멀 모드 복귀
+1. `A]` 줄 맨 끝에 닫는 대괄호(]) 삽입
+1. `&lt;esc&gt;` 노멀 모드 복귀
+
+# Swap Quoted Strings
+
+&lt;!-- difficulty: beginner --&gt;
+
+두 따옴표 내용의 위치를 바꿉니다.
+
+## Before
+
+```text
+"foo" "bar"
+```
+
+## After
+
+```text
+"bar" "foo"
+```
+
+## Command
+
+```
+:s/"\([^"]*\)" "\([^"]*\)"/"\2" "\1"/&lt;cr&gt;
+```
+
+1. `:s/"\([^"]*\)" "\([^"]*\)"/` 두 개의 큰따옴표 문자열 매칭 및 캡처
+1. `"\2" "\1"/` 두 문자열의 위치 교환
+1. `&lt;cr&gt;` 명령 실행
+
+# Export from Rust Module
+
+&lt;!-- difficulty: intermediate --&gt;
+
+각 모듈에 포함된 함수를 re-export(pub use)합니다.
+
+## Before
+
+```rs
+mod generate_demos;
+mod mdbook_preprocessor;
+mod validate;
+```
+
+## After
+
+```rs
+mod generate_demos;
+mod mdbook_preprocessor;
+mod validate;
+
+pub use generate_demos::generate_demos;
+pub use mdbook_preprocessor::mdbook_preprocessor;
+pub use validate::validate;
+```
+
+## Command
+
+```
+:%t$&lt;cr&gt;:4s/^/\r/&lt;cr&gt;:5,$s/mod \(.*\);/pub use \1::\1;/g&lt;cr&gt;
+```
+
+1. `:%t$&lt;cr&gt;` 전체 내용을 버퍼 맨 끝($)으로 복제
+1. `:4s/^/\r/&lt;cr&gt;` 4번째 줄 앞에 빈 줄 삽입
+1. `:5,$s/mod \(.*\);/pub use \1::\1;/g&lt;cr&gt;` 5행부터 끝까지 mod 구문을 pub use 모듈::함수로 치환
+
+# Object into Array
+
+&lt;!-- difficulty: intermediate --&gt;
+
+객체를 2차원 배열로 변환합니다.
+
+## Before
+
+```js
+const palette = {
+  apricot: "#f47868",
+  lightning: "#ffcd1c",
+  delta: "6f44f0",
+};
+```
+
+## After
+
+```js
+const palette = [
+  ["apricot", "#f47868"],
+  ["lightning", "#ffcd1c"],
+  ["delta", "6f44f0"],
+];
+```
+
+## Command
+
+```
+:%s/{/[/&lt;cr&gt;:%s/}/]/&lt;cr&gt;
+
+:%s/  \([a-z]*\): \([^,]*\),/  ["\1", \2],/g&lt;cr&gt;
+```
+
+1. `:%s/{/[/&lt;cr&gt;` 여는 중괄호를 여는 대괄호로 치환
+1. `:%s/}/]/&lt;cr&gt;` 닫는 중괄호를 닫는 대괄호로 치환
+1. `:%s/  \([a-z]*\): \([^,]*\),/  ["\1", \2],/g&lt;cr&gt;` 키-값 쌍을 배열 요소 형식으로 치환
+
+# snake_case to camelCase
+
+&lt;!-- difficulty: intermediate --&gt;
+
+모든 필드명을 camelCase로 변경합니다. (이메일 주소의 밑줄 제외)
+
+## Before
+
+```js
+const user_profile = {
+  first_name: "John",
+  last_name: "Doe",
+  birth_date: "1990-05-15",
+  email_address: "john_doe@example.com",
+  phone_number: "555-123-4567",
+  mailing_address: {
+    street_name: "Main Street",
+    house_number: 123,
+    apartment_unit: "4B",
+    zip_code: "10001",
+    city_name: "New York",
+  },
+};
+```
+
+## After
+
+```js
+const userProfile = {
+  firstName: "John",
+  lastName: "Doe",
+  birthDate: "1990-05-15",
+  emailAddress: "john_doe@example.com",
+  phoneNumber: "555-123-4567",
+  mailingAddress: {
+    streetName: "Main Street",
+    houseNumber: 123,
+    apartmentUnit: "4B",
+    zipCode: "10001",
+    cityName: "New York",
+  },
+};
+```
+
+## Command
+
+```
+:%s/_\([a-z]\)\([^@]*:\)/\u\1\2/g&lt;cr&gt;
+
+:%s/user_profile/userProfile/&lt;cr&gt;
+```
+
+1. `:%s/_\([a-z]\)\([^@]*:\)/\u\1\2/g&lt;cr&gt;` 콜론(:) 앞의 키 필드에 있는 밑줄(_)을 뒤의 문자를 대문자(\u\1)로 변환하며 치환 (이메일 제외)
+1. `:%s/user_profile/userProfile/&lt;cr&gt;` 변수명 camelCase 치환
+
+# Invert Dictionary
+
+&lt;!-- difficulty: advanced --&gt;
+
+딕셔너리의 키-값 쌍을 반전시킵니다.
+
+## Before
+
+```gdscript
+var color_to_points = {
+    "red" = 0,
+    "orange" = 5,
+    "yellow" = 10,
+    "green" = 15,
+    "blue" = 20,
+    "purple" = 30,
+    "black" = 50,
+}
+```
+
+## After
+
+```gdscript
+var points_to_color = {
+    0 = "red",
+    5 = "orange",
+    10 = "yellow",
+    15 = "green",
+    20 = "blue",
+    30 = "purple",
+    50 = "black",
+}
+```
+
+## Command
+
+```
+:1s/color_to_points/points_to_color/&lt;cr&gt;
+
+:%s/\("[^"]*"\) = \([0-9]*\)/\2 = \1/g&lt;cr&gt;
+```
+
+1. `:1s/color_to_points/points_to_color/&lt;cr&gt;` 변수 이름 반전
+1. `:%s/\("[^"]*"\) = \([0-9]*\)/\2 = \1/g&lt;cr&gt;` 키 문자열과 값 숫자의 위치 맞바꾸기
+
+# Invert Dictionary 2
+
+&lt;!-- difficulty: advanced --&gt;
+
+딕셔너리의 키-값 쌍을 반전시키는 또 다른 방법입니다.
+
+## Before
+
+```gdscript
+var color_to_points = {
+    "red" = 0,
+    "orange" = 5,
+    "yellow" = 10,
+    "green" = 15,
+    "blue" = 20,
+    "purple" = 30,
+    "black" = 50,
+}
+```
+
+## After
+
+```gdscript
+var points_to_color = {
+    0 = "red",
+    5 = "orange",
+    10 = "yellow",
+    15 = "green",
+    20 = "blue",
+    30 = "purple",
+    50 = "black",
+}
+```
+
+## Command
+
+```
+:1s/color_to_points/points_to_color/&lt;cr&gt;
+
+:2,8s/\(\s*\)\(.*\) = \(.*\),/\1\3 = \2,/&lt;cr&gt;
+```
+
+1. `:1s/color_to_points/points_to_color/&lt;cr&gt;` 첫 줄 변수명 치환
+1. `:2,8s/\(\s*\)\(.*\) = \(.*\),/\1\3 = \2,/&lt;cr&gt;` 2~8행 들여쓰기와 쉼표를 유지하며 등호 앞뒤 내용 치환
+
+# CSV to SQL
+
+&lt;!-- difficulty: advanced --&gt;
+
+CSV 형식 데이터를 SQL INSERT 문으로 변환합니다.
+
+## Before
+
+```csv
+id 1,Item 1,cost 1,location 1
+id 2,Item 2,cost 2,location 2
+id 10,Item 10,cost 10,location 10
+```
+
+## After
+
+```sql
+INSERT INTO `database`.`table` (`id` ,`item` ,`cost` ,`location`) VALUES ('id 1','Item 1','cost 1','Location 1');
+INSERT INTO `database`.`table` (`id` ,`item` ,`cost` ,`location`) VALUES ('id 2','Item 2','cost 2','Location 2');
+INSERT INTO `database`.`table` (`id` ,`item` ,`cost` ,`location`) VALUES ('id 10','Item 10','cost 10','Location 10');
+```
+
+## Command
+
+```
+:%s/\([^,]*\),\([^,]*\),\([^,]*\),location \(.*\)/
+
+INSERT INTO `database`.`table` (`id` ,`item` ,`cost` ,
+
+`location`) VALUES ('\1','\2','\3','Location \4');/&lt;cr&gt;
+```
+
+1. `:%s/\([^,]*\),\([^,]*\),\([^,]*\),location \(.*\)/` 네 개 열을 매칭하고 캡처
+1.
+    ```
+    INSERT INTO `database`.`table` (`id` ,`item` ,`cost` ,`location`) VALUES ('\1','\2','\3','Location \4');/&lt;cr&gt;
+    ```
+
+# Enumerate and Align
+
+&lt;!-- difficulty: advanced --&gt;
+
+각 객체에 1부터 시작하여 증가하는 `rank` 필드를 추가하고, 보기 좋게 필드를 정렬합니다.
+
+## Before
+
+```js
+[
+  { word: "a", count: 2565 },
+  { word: "and", count: 1777 },
+  { word: "of", count: 1331 },
+  { word: "that", count: 1263 },
+  { word: "to", count: 1030 },
+  { word: "in", count: 1027 },
+  { word: "it", count: 754 },
+  { word: "as", count: 730 },
+  { word: "was", count: 687 },
+  { word: "you", count: 652 },
+  { word: "for", count: 630 },
+];
+```
+
+## After
+
+```js
+[
+  { rank:  1, word: "a",    count: 2565 },
+  { rank:  2, word: "and",  count: 1777 },
+  { rank:  3, word: "of",   count: 1331 },
+  { rank:  4, word: "that", count: 1263 },
+  { rank:  5, word: "to",   count: 1030 },
+  { rank:  6, word: "in",   count: 1027 },
+  { rank:  7, word: "it",   count:  754 },
+  { rank:  8, word: "as",   count:  730 },
+  { rank:  9, word: "was",  count:  687 },
+  { rank: 10, word: "you",  count:  652 },
+  { rank: 11, word: "for",  count:  630 },
+];
+```
+
+## Command
+
+```
+:2,12s/word/\=printf("rank: %2d, word", line(".")-1)/&lt;cr&gt;
+
+:2,12s/word: \([^,]*\), count: \(\d\+\)/
+
+\=printf("word: %-7s count: %4d",
+
+ submatch(1).",", str2nr(submatch(2)))/&lt;cr&gt;
+```
+
+1. `:2,12s/word/\=printf("rank: %2d, word", line(".")-1)/&lt;cr&gt;` 2~12행에 증가하는 번호의 rank 필드 삽입
+1.
+    ```
+    :2,12s/word: \([^,]*\), count: \(\d\+\)/\=printf("word: %-7s count: %4d", submatch(1).",", str2nr(submatch(2)))/&lt;cr&gt;
+    ```
+
+# Function into Class
+
+&lt;!-- difficulty: advanced --&gt;
+
+3개의 함수를 3개의 메서드를 가진 클래스로 변환합니다.
+
+## Before
+
+```py
+def calculate_area(length, width):
+    result = length * width
+    return result
+
+def calculate_perimiter(length, width):
+    result = 2 * (length + width)
+    return result
+
+def calculate_volume(length, width, height):
+    result = length * width * height
+    return result
+```
+
+## After
+
+```py
+class Calculator:
+    @staticmethod
+    def get_area(len, wid):
+        return len * wid
+
+    @staticmethod
+    def get_perimiter(len, wid):
+        return 2 * (len + wid)
+
+    @staticmethod
+    def get_volume(len, wid, hei):
+        return len * wid * hei
+```
+
+## Command
+
+```
+:%s/calculate/get/g&lt;cr&gt;
+
+:%s/def/    @staticmethod\r    def/g&lt;cr&gt;
+
+:%s/length/len/g&lt;cr&gt;
+
+:%s/width/wid/g&lt;cr&gt;
+
+:%s/height/hei/g&lt;cr&gt;
+
+:%s/    result = \(.*\)\n    return result/
+
+        return \1/g&lt;cr&gt;
+
+ggOclass Calculator:&lt;esc&gt;
+```
+
+1. `:%s/calculate/get/g&lt;cr&gt;` calculate를 get으로 변경
+1. `:%s/def/    @staticmethod\r    def/g&lt;cr&gt;` 각 함수 위에 @staticmethod 데코레이터 추가 및 인덴트
+1. `:%s/length/len/g&lt;cr&gt;` length 파라미터 축약
+1. `:%s/width/wid/g&lt;cr&gt;` width 파라미터 축약
+1. `:%s/height/hei/g&lt;cr&gt;` height 파라미터 축약
+1.
+    ```
+    :%s/    result = \(.*\)\n    return result/        return \1/g&lt;cr&gt;
+    ```
+1. `gg` 파일 첫 줄로 이동
+1. `O` 윗 줄에 새 줄 생성 후 삽입 모드 진입
+1. `class Calculator:` 클래스 선언 입력
+1. `&lt;esc&gt;` 노멀 모드 복귀
+
+# Reverse Golf Example
+
+&lt;!-- difficulty: advanced --&gt;
+
+예제의 "Before"와 "After" 케이스를 서로 맞바꿉니다.
+
+## Before
+
+````md
+# snake_case to camelCase
+
+Rename all fields to be camelCase.
+
+## Before
+
+```js
+const user_profile = {first_name: "John"};
+```
+
+## After
+
+```js
+const userProfile = {firstName: "John"};
+```
+````
+
+## After
+
+````md
+# camelCase to snake_case
+
+Rename all fields to be snake_case.
+
+## Before
+
+```js
+const userProfile = {firstName: "John"};
+```
+
+## After
+
+```js
+const user_profile = {first_name: "John"};
+```
+````
+
+## Command
+
+```
+:1,3s/snake_case/TEMP_CASE/g&lt;cr&gt;
+
+:1,3s/camelCase/snake_case/g&lt;cr&gt;
+
+:1,3s/TEMP_CASE/camelCase/g&lt;cr&gt;
+
+:7,9s/user_profile/userProfile/g&lt;cr&gt;
+
+:7,9s/first_name/firstName/g&lt;cr&gt;
+
+:13,15s/userProfile/user_profile/g&lt;cr&gt;
+
+:13,15s/firstName/first_name/g&lt;cr&gt;
+```
+
+1. `:1,3s/snake_case/TEMP_CASE/g&lt;cr&gt;` 헤더 부분 임시 치환
+1. `:1,3s/camelCase/snake_case/g&lt;cr&gt;` camelCase를 snake_case로 치환
+1. `:1,3s/TEMP_CASE/camelCase/g&lt;cr&gt;` 임시값을 camelCase로 치환
+1. `:7,9s/user_profile/userProfile/g&lt;cr&gt;` Before 코드 블록 변수명을 userProfile로 치환
+1. `:7,9s/first_name/firstName/g&lt;cr&gt;` Before 코드 블록 필드명을 firstName으로 치환
+1. `:13,15s/userProfile/user_profile/g&lt;cr&gt;` After 코드 블록 변수명을 user_profile로 치환
+1. `:13,15s/firstName/first_name/g&lt;cr&gt;` After 코드 블록 필드명을 first_name으로 치환
+
+
+</code></pre>
+</details>
+<h2 id="beginner-초급"><a class="header" href="#beginner-초급">Beginner (초급)</a></h2>
+<h3 id="join-lines"><a class="header" href="#join-lines"><a href="join_lines.html">Join Lines</a></a></h3>
+<p>두 줄을 한 줄로 합칩니다.</p>
+<video autoplay controls loop>
+  <source src="generated/join_lines.mp4">
+</video>
+<h3 id="extend-delete-words"><a class="header" href="#extend-delete-words"><a href="extend_delete_words.html">Extend Delete Words</a></a></h3>
+<p>앞의 두 단어를 지웁니다.</p>
+<video autoplay controls loop>
+  <source src="generated/extend_delete_words.mp4">
+</video>
+<h3 id="swap-lines"><a class="header" href="#swap-lines"><a href="swap_lines.html">Swap Lines</a></a></h3>
+<p>두 줄의 순서를 바꿉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/swap_lines.mp4">
+</video>
+<h3 id="delete-blank-line"><a class="header" href="#delete-blank-line"><a href="delete_blank_line.html">Delete Blank Line</a></a></h3>
+<p>빈 줄을 삭제합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/delete_blank_line.mp4">
+</video>
+<h3 id="rotate-main-selection"><a class="header" href="#rotate-main-selection"><a href="rotate_main_selection.html">Rotate Main Selection</a></a></h3>
+<p>마지막 숫자만 바꿉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/rotate_main_selection.mp4">
+</video>
+<h3 id="toggle-word-case"><a class="header" href="#toggle-word-case"><a href="toggle_word_case.html">Toggle Word Case</a></a></h3>
+<p>단어의 대소문자를 뒤집습니다.</p>
+<video autoplay controls loop>
+  <source src="generated/toggle_word_case.mp4">
+</video>
+<h3 id="duplicate-line"><a class="header" href="#duplicate-line"><a href="duplicate_line.html">Duplicate Line</a></a></h3>
+<p>한 줄을 복사해 세 줄로 늘립니다.</p>
+<video autoplay controls loop>
+  <source src="generated/duplicate_line.mp4">
+</video>
+<h3 id="increment-numbers"><a class="header" href="#increment-numbers"><a href="increment_numbers.html">Increment Numbers</a></a></h3>
+<p>여러 숫자를 한 번에 1씩 증가시킵니다.</p>
+<video autoplay controls loop>
+  <source src="generated/increment_numbers.mp4">
+</video>
+<h3 id="toggle-comment"><a class="header" href="#toggle-comment"><a href="toggle_comment.html">Toggle Comment</a></a></h3>
+<p>여러 줄을 한 번에 주석으로 바꿉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/toggle_comment.mp4">
+</video>
+<h3 id="sort-lines"><a class="header" href="#sort-lines"><a href="sort_lines.html">Sort Lines</a></a></h3>
+<p>정렬되지 않은 줄들을 정렬합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/sort_lines.mp4">
+</video>
+<h3 id="format-json-with-jq"><a class="header" href="#format-json-with-jq"><a href="format_json_jq.html">Format JSON with jq</a></a></h3>
+<p>한 줄 JSON을 셸 필터로 보기 좋게 펼칩니다.</p>
+<video autoplay controls loop>
+  <source src="generated/format_json_jq.mp4">
+</video>
+<h3 id="replace-an-identifier"><a class="header" href="#replace-an-identifier"><a href="replace_identifier.html">Replace an Identifier</a></a></h3>
+<p>커서가 놓인 변수 이름을 다른 이름으로 변경합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/replace_identifier.mp4">
+</video>
+<h3 id="add-semicolons"><a class="header" href="#add-semicolons"><a href="add_semicolons.html">Add Semicolons</a></a></h3>
+<p>각 줄 끝에 세미콜론을 붙입니다.</p>
+<video autoplay controls loop>
+  <source src="generated/add_semicolons.mp4">
+</video>
+<h3 id="replace-punctuation"><a class="header" href="#replace-punctuation"><a href="replace_punctuation.html">Replace Punctuation</a></a></h3>
+<p>여러 줄의 앞 기호를 한 번에 바꿉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/replace_punctuation.mp4">
+</video>
+<h3 id="csv-to-lines"><a class="header" href="#csv-to-lines"><a href="csv_to_lines.html">CSV to Lines</a></a></h3>
+<p>쉼표로 구분된 한 줄을 여러 줄로 나눕니다.</p>
+<video autoplay controls loop>
+  <source src="generated/csv_to_lines.mp4">
+</video>
+<h3 id="indent-lines"><a class="header" href="#indent-lines"><a href="indent_lines.html">Indent Lines</a></a></h3>
+<p>여러 줄을 한 번에 들여씁니다.</p>
+<video autoplay controls loop>
+  <source src="generated/indent_lines.mp4">
+</video>
+<h3 id="delete-surround"><a class="header" href="#delete-surround"><a href="delete_surround.html">Delete Surround</a></a></h3>
+<p>여러 줄의 감싸는 괄호를 한 번에 제거합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/delete_surround.mp4">
+</video>
+<h3 id="fix-typo-with-search"><a class="header" href="#fix-typo-with-search"><a href="fix_typo_with_search.html">Fix Typo with Search</a></a></h3>
+<p>검색으로 오타를 찾아 고칩니다.</p>
+<video autoplay controls loop>
+  <source src="generated/fix_typo_with_search.mp4">
+</video>
+<h3 id="insert-sequence"><a class="header" href="#insert-sequence"><a href="insert_sequence.html">Insert Sequence</a></a></h3>
+<p>셸 출력을 커서 앞에 삽입합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/insert_sequence.mp4">
+</video>
+<h3 id="wrap-with-tag"><a class="header" href="#wrap-with-tag"><a href="wrap_with_tag.html">Wrap with Tag</a></a></h3>
+<p>각 줄을 여는 태그와 닫는 태그로 감쌉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/wrap_with_tag.mp4">
+</video>
+<h3 id="replace-surrounding-characters"><a class="header" href="#replace-surrounding-characters"><a href="replace_surround.html">Replace Surrounding Characters</a></a></h3>
+<p>괄호를 대괄호로 변경합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/replace_surround.mp4">
+</video>
+<h3 id="swap-columns"><a class="header" href="#swap-columns"><a href="swap_columns.html">Swap Columns</a></a></h3>
+<p>두 열의 순서를 바꿉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/swap_columns.mp4">
+</video>
+<h3 id="swap-quoted-strings"><a class="header" href="#swap-quoted-strings"><a href="swap_quoted_strings.html">Swap Quoted Strings</a></a></h3>
+<p>두 따옴표 내용의 위치를 바꿉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/swap_quoted_strings.mp4">
+</video>
+<h2 id="intermediate-중급"><a class="header" href="#intermediate-중급">Intermediate (중급)</a></h2>
+<h3 id="multicursor-prefix"><a class="header" href="#multicursor-prefix"><a href="multicursor_prefix.html">Multicursor Prefix</a></a></h3>
+<p>Visual Block 모드로 여러 줄 앞에 접두사를 동시에 삽입합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/multicursor_prefix.mp4">
+</video>
+<h3 id="align-assignments"><a class="header" href="#align-assignments"><a href="align_assignments.html">Align Assignments</a></a></h3>
+<p>할당 연산자를 열에 맞춰 정렬합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/align_assignments.mp4">
+</video>
+<h3 id="replace-a-regex-sensitive-literal"><a class="header" href="#replace-a-regex-sensitive-literal"><a href="replace_regex_literal.html">Replace a Regex-Sensitive Literal</a></a></h3>
+<p>문서 전체에서 정규식 메타문자가 포함된 문자열을 다른 문자열로 한 번에 변경합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/replace_regex_literal.mp4">
+</video>
+<h3 id="replace-a-selection-with-the-system-clipboard"><a class="header" href="#replace-a-selection-with-the-system-clipboard"><a href="replace_with_system_clipboard.html">Replace a Selection with the System Clipboard</a></a></h3>
+<p>레지스터를 활용하여 문자열을 복사하고 다른 위치의 문자열을 교체합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/replace_with_system_clipboard.mp4">
+</video>
+<h3 id="text-into-array"><a class="header" href="#text-into-array"><a href="text_into_array.html">Text into Array</a></a></h3>
+<p>줄바꿈으로 구분된 데이터를 문자열 배열로 결합합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/text_into_array.mp4">
+</video>
+<h3 id="export-from-rust-module"><a class="header" href="#export-from-rust-module"><a href="export_from_mod.html">Export from Rust Module</a></a></h3>
+<p>각 모듈에 포함된 함수를 re-export(pub use)합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/export_from_mod.mp4">
+</video>
+<h3 id="object-into-array"><a class="header" href="#object-into-array"><a href="object_into_array.html">Object into Array</a></a></h3>
+<p>객체를 2차원 배열로 변환합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/object_into_array.mp4">
+</video>
+<h3 id="snake_case-to-camelcase"><a class="header" href="#snake_case-to-camelcase"><a href="snake_case_to_camel_case.html">snake_case to camelCase</a></a></h3>
+<p>모든 필드명을 camelCase로 변경합니다. (이메일 주소의 밑줄 제외)</p>
+<video autoplay controls loop>
+  <source src="generated/snake_case_to_camel_case.mp4">
+</video>
+<h2 id="advanced-고급"><a class="header" href="#advanced-고급">Advanced (고급)</a></h2>
+<h3 id="invert-dictionary"><a class="header" href="#invert-dictionary"><a href="invert_dictionary.html">Invert Dictionary</a></a></h3>
+<p>딕셔너리의 키-값 쌍을 반전시킵니다.</p>
+<video autoplay controls loop>
+  <source src="generated/invert_dictionary.mp4">
+</video>
+<h3 id="invert-dictionary-2"><a class="header" href="#invert-dictionary-2"><a href="invert_dictionary_2.html">Invert Dictionary 2</a></a></h3>
+<p>딕셔너리의 키-값 쌍을 반전시키는 또 다른 방법입니다.</p>
+<video autoplay controls loop>
+  <source src="generated/invert_dictionary_2.mp4">
+</video>
+<h3 id="csv-to-sql"><a class="header" href="#csv-to-sql"><a href="csv_to_sql.html">CSV to SQL</a></a></h3>
+<p>CSV 형식 데이터를 SQL INSERT 문으로 변환합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/csv_to_sql.mp4">
+</video>
+<h3 id="enumerate-and-align"><a class="header" href="#enumerate-and-align"><a href="enumerate_and_align.html">Enumerate and Align</a></a></h3>
+<p>각 객체에 1부터 시작하여 증가하는 <code>rank</code> 필드를 추가하고, 보기 좋게 필드를 정렬합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/enumerate_and_align.mp4">
+</video>
+<h3 id="function-into-class"><a class="header" href="#function-into-class"><a href="function_into_class.html">Function into Class</a></a></h3>
+<p>3개의 함수를 3개의 메서드를 가진 클래스로 변환합니다.</p>
+<video autoplay controls loop>
+  <source src="generated/function_into_class.mp4">
+</video>
+<h3 id="reverse-golf-example"><a class="header" href="#reverse-golf-example"><a href="reverse_golf_example.html">Reverse Golf Example</a></a></h3>
+<p>예제의 "Before"와 "After" 케이스를 서로 맞바꿉니다.</p>
+<video autoplay controls loop>
+  <source src="generated/reverse_golf_example.mp4">
+</video>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="join_lines.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="join_lines.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
