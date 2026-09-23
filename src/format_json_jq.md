@@ -7,14 +7,14 @@
 ## Before
 
 ```json
-{"name": "helix", "stars": 100}
+{"name": "neovim", "stars": 100}
 ```
 
 ## After
 
 ```json
 {
-  "name": "helix",
+  "name": "neovim",
   "stars": 100
 }
 ```

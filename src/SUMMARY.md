@@ -14,6 +14,7 @@
 - [Duplicate Line](duplicate_line.md)
 - [Toggle Word Case](toggle_word_case.md)
 - [Increment Numbers](increment_numbers.md)
+- [Delete the Last Function Argument in Python](delete_last_argument.md)
 - [Toggle Comment](toggle_comment.md)
 - [Format JSON with jq](format_json_jq.md)
 - [Sort Lines](sort_lines.md)
@@ -28,7 +29,10 @@
 - [Wrap with Tag](wrap_with_tag.md)
 - [Replace Surrounding Characters](replace_surround.md)
 - [Swap Columns](swap_columns.md)
+- [Filling Braces](filling_braces.md)
+- [YAML to dotenv](yaml_to_dotenv.md)
 - [Swap Quoted Strings](swap_quoted_strings.md)
+- [Swap Python Function Parameters](swap_python_params.md)
 
 # Intermediate (중급)
 
@@ -37,9 +41,15 @@
 - [Replace a Regex-Sensitive Literal](replace_regex_literal.md)
 - [Replace a Selection with the System Clipboard](replace_with_system_clipboard.md)
 - [Text into Array](text_into_array.md)
+- [Rearrange Array to One Line](rearrange_array_one_line.md)
+- [Even and Odd](even_and_odd.md)
+- [From Brackets to Parens](brackets_to_parens.md)
+- [Flip All Bits](flip_all_bits.md)
 - [Export from Rust Module](export_from_mod.md)
 - [Object into Array](object_into_array.md)
 - [snake_case to camelCase](snake_case_to_camel_case.md)
+- [Create JSON from a .env File](json_from_env.md)
+- [Changing Date Formats](changing_date_formats.md)
 
 # Advanced (고급)
 

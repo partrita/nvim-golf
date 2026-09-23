@@ -2,9 +2,21 @@
 
 Neovim은 텍스트 편집에 _매우_ 강력한 에디터입니다. 이 웹사이트는 Neovim을 활용하여 코드 스니펫을 어떻게 리팩토링했는지 보여주는 예제들을 모아둔 곳입니다.
 
-https://github.com/user-attachments/assets/d79d583e-f79b-40ce-add7-e60a8307156a
+## 키 표기법 안내 (Key Legend)
 
-전체 예제 보러가기:
+예제의 `Command`에 표시되는 특수 키 표기법은 다음과 같습니다:
+
+| 표기 | 키 | 설명 |
+| :--- | :--- | :--- |
+| `<cr>` 또는 `<ret>` | Enter / Return | 엔터 키 (명령줄 실행 또는 줄바꿈) |
+| `<esc>` | Esc | Escape 키 (일반 모드로 복귀 또는 작업 취소) |
+| `<space>` | Space | 스페이스(공백) 키 |
+| `<tab>` | Tab | 탭 키 |
+| `<bs>` | Backspace | 백스페이스 키 (이전 글자 삭제) |
+| `<C-v>` | Ctrl + v | 시각적 블록(Visual Block) 모드 진입 |
+| `<C-a>` | Ctrl + a | 커서 위치의 숫자 1 증가 |
+| `<C-x>` | Ctrl + x | 커서 위치의 숫자 1 감소 |
+| `<C-r>` | Ctrl + r | 명령줄/입력 모드 레지스터 삽입 또는 Redo |
 
 ## 기여하기 (Contributing)
 

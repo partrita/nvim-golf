@@ -10,13 +10,13 @@
 Hello
 This
 Is
-Helix
+Neovim
 ```
 
 ## After
 
 ```js
-["Hello", "This", "Is", "Helix"]
+["Hello", "This", "Is", "Neovim"]
 ```
 
 ## Command
