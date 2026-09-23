@@ -1,0 +1,59 @@
+Output src/generated/yaml_to_dotenv.mp4
+Require nvim
+
+Hide
+Set Shell "bash"
+Set FontSize 20
+Set Width 1200
+Set Height 600
+Set Padding 0
+Set Theme "Catppuccin Mocha"
+Set TypingSpeed 150ms
+Type "nvim --clean src/generated/yaml_to_dotenv.sh"
+Enter
+Show
+
+Type ":"
+Type "v"
+Type "/"
+Type "!"
+Type "E"
+Type "N"
+Type "V"
+Type "/"
+Type "d"
+Enter
+Type ":"
+Type "%"
+Type "s"
+Type "/"
+Type "."
+Type "*"
+Type "{"
+Type "\"
+Type "("
+Type "["
+Type "^"
+Type "}"
+Type "]"
+Type "*"
+Type "\"
+Type ")"
+Type "}"
+Type "."
+Type "*"
+Type "/"
+Type "\"
+Type "1"
+Type "="
+Type "/"
+Enter
+
+Escape
+
+Hide
+Type ":w!"
+Enter
+Show
+
+Sleep 2s
