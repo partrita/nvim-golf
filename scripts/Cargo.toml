@@ -1,0 +1,39 @@
+[package]
+name = "scripts"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# required for key flags
+bitflags = "2.9.1"
+# parse markdown
+markdown = "1.0.0"
+# beautiful error messages
+miette = { version = "7.6.0", features = ["fancy"] }
+# ensure BEFORE and AFTER is the same and get a colorful diff if they aren't
+pretty_assertions = "1.4.1"
+# generate each example in parallel
+rayon = "1.10.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.140"
+# functional methods such as Pipe
+tap = "1.0.1"
+# `#[derive(Error)]`
+thiserror = "2.0.12"
+# check if binary `vhs` exists
+which = "7.0.3"
+
+[lints.rust]
+missing_docs = "warn"
+unused_qualifications = "warn"
+unused_assignments = "allow"
+
+[lints.clippy]
+pedantic = { priority = -1, level = "warn" }
+nursery = { priority = -1, level = "warn" }
+# use Trait; => use Trait as _;
+unused_trait_names = "warn"
+# if we need it const, make it const. no need to make everything that can be const, const
+missing_const_for_fn = "allow"
+# arbitrary limit imposes unnecessary restriction and can make code harder to follow
+too_many_lines = "allow"

@@ -1,0 +1,14 @@
+[book]
+authors = ["Nik Revenco", "Taeyoon Kim", "LLM"]
+language = "ko"
+src = "src"
+title = "Neovim Golf"
+description = "Neovim 에디터의 진정한 잠재력 활용하기"
+
+[output.html]
+site-url = "https://partrita.github.io/nvim-golf"
+git-repository-url = "https://github.com/partrita/nvim-golf"
+edit-url-template = "https://github.com/partrita/nvim-golf/edit/main/{path}"
+
+[preprocessor.nvim-golf]
+command = "cargo run --manifest-path scripts/Cargo.toml -- mdbook-preprocessor"

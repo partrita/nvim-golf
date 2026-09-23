@@ -1,0 +1,3 @@
+[alias]
+validate = "run --manifest-path scripts/Cargo.toml -- validate"
+generate-demos = "run --manifest-path scripts/Cargo.toml -- generate-demos"
