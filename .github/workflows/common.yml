@@ -32,11 +32,14 @@ jobs:
           echo "$HOME/go/bin" >> $GITHUB_PATH
 
       - name: Install Neovim
-        run: |
-          curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-          tar -xzf nvim-linux-x86_64.tar.gz
-          echo "$PWD/nvim-linux-x86_64/bin" >> $GITHUB_PATH
-          nvim --version
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify Neovim
+        run: nvim --version
 
       - run: cargo check --manifest-path scripts/Cargo.toml
       - run: cargo fmt --manifest-path scripts/Cargo.toml --check
