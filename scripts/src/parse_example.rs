@@ -38,7 +38,7 @@ enum Expecting {
     /// Hello
     /// This
     /// Is
-    /// Helix
+    /// Neovim
     /// ```
     /// ````
     CodeBefore(Position),
@@ -53,7 +53,7 @@ enum Expecting {
     ///
     /// ````md
     /// ```js
-    /// ["Hello", "This", "Is", "Helix"];
+    /// ["Hello", "This", "Is", "Neovim"];
     /// ```
     /// ````
     CodeAfter(Position),

@@ -1,10 +1,10 @@
 //! Parse string of key sequences.
 //!
-//! Vendored from the Helix codebase.
+//! Vendored from the Neovim codebase.
 //!
 //! Includes some modifications.
 
-//! Convert the Helix `KeyCode`s into something that [`vhs`](vhs) can understand
+//! Convert the Neovim `KeyCode`s into something that [`vhs`](vhs) can understand
 //!
 //! [vhs]: https://github.com/charmbracelet/vhs
 
@@ -731,7 +731,7 @@ bitflags! {
 
 pub mod keys {
     pub const BACKSPACE: &str = "backspace";
-    // NOTE: In Vim/Helix, it is "ret" / "cr" / "enter"
+    // NOTE: In Vim/Neovim, it is "ret" / "cr" / "enter"
     pub const ENTER: &str = "enter";
     pub const RET: &str = "ret";
     pub const CR: &str = "cr";

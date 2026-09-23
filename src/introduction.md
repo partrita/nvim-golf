@@ -15,6 +15,22 @@ Neovim Golf는 차세대 확장형 텍스트 에디터인
 
 예제는 난이도별로 세 그룹으로 나뉩니다. 처음이라면 Beginner부터 순서대로 풀어보세요.
 
+## 키 표기법 안내 (Key Legend)
+
+예제의 `Command`에 표시되는 특수 키 표기법은 다음과 같습니다:
+
+| 표기 | 키 | 설명 |
+| :--- | :--- | :--- |
+| `<cr>` 또는 `<ret>` | Enter / Return | 엔터 키 (명령줄 실행 또는 줄바꿈) |
+| `<esc>` | Esc | Escape 키 (일반 모드로 복귀 또는 취소) |
+| `<space>` | Space | 스페이스(공백) 키 |
+| `<tab>` | Tab | 탭 키 |
+| `<bs>` | Backspace | 백스페이스 키 (이전 글자 삭제) |
+| `<C-v>` | Ctrl + v | 시각적 블록(Visual Block) 모드 진입 |
+| `<C-a>` | Ctrl + a | 커서 위치의 숫자 1 증가 |
+| `<C-x>` | Ctrl + x | 커서 위치의 숫자 1 감소 |
+| `<C-r>` | Ctrl + r | 명령줄/입력 모드 레지스터 삽입 또는 Redo |
+
 # 각 예제 데모
 
 <details>
@@ -254,6 +270,34 @@ gUiw
 1. `j` 다음 줄로 이동
 1. `<ctrl-a>` 세 번째 줄 숫자 1 증가
 
+# Delete the Last Function Argument in Python
+
+<!-- difficulty: beginner -->
+
+함수 호출문의 마지막 인자와 앞의 공백을 모션 명령으로 빠르게 삭제합니다.
+
+## Before
+
+```py
+print(pairs, len(pairs))
+```
+
+## After
+
+```py
+print(pairs,)
+```
+
+## Command
+
+```
+f,ldf)
+```
+
+1. `f,` 쉼표(,) 위치로 커서 이동
+1. `l` 오른쪽 공백으로 한 칸 이동
+1. `df)` 다음 닫는 소괄호())까지 공백과 마지막 인자 일괄 삭제
+
 # Toggle Comment
 
 <!-- difficulty: beginner -->
@@ -297,14 +341,14 @@ print("c")
 ## Before
 
 ```json
-{"name": "helix", "stars": 100}
+{"name": "neovim", "stars": 100}
 ```
 
 ## After
 
 ```json
 {
-  "name": "helix",
+  "name": "neovim",
   "stars": 100
 }
 ```
@@ -842,6 +886,46 @@ banana 2
 1. `\2 \1/` 두 번째 열과 첫 번째 열의 위치 교환
 1. `<cr>` 명령 실행
 
+# Filling Braces
+
+<!-- difficulty: beginner -->
+
+중괄호 안으로 이동하여 지정된 속성값을 입력합니다.
+
+## Before
+
+```css
+.ocean {}
+.land {}
+.sky {}
+```
+
+## After
+
+```css
+.ocean {blue}
+.land {green}
+.sky {lightblue}
+```
+
+## Command
+
+```
+ci}blue<esc>jci}green<esc>jci}lightblue<esc>
+```
+
+1. `ci}` 현재 줄의 중괄호({}) 내부로 점프하여 변경 모드로 전환
+1. `blue` 첫 번째 중괄호 내용 입력
+1. `<esc>` 일반 모드로 복귀
+1. `j` 다음 줄로 이동
+1. `ci}` 다음 줄의 중괄호 내부로 전환
+1. `green` 두 번째 중괄호 내용 입력
+1. `<esc>` 일반 모드로 복귀
+1. `j` 다음 줄로 이동
+1. `ci}` 다음 줄의 중괄호 내부로 전환
+1. `lightblue` 세 번째 중괄호 내용 입력
+1. `<esc>` 일반 모드로 복귀
+
 # Text into Array
 
 <!-- difficulty: intermediate -->
@@ -854,13 +938,13 @@ banana 2
 Hello
 This
 Is
-Helix
+Neovim
 ```
 
 ## After
 
 ```js
-["Hello", "This", "Is", "Helix"]
+["Hello", "This", "Is", "Neovim"]
 ```
 
 ## Command
@@ -875,6 +959,263 @@ Helix
 1. `<esc>` 노멀 모드 복귀
 1. `A]` 줄 맨 끝에 닫는 대괄호(]) 삽입
 1. `<esc>` 노멀 모드 복귀
+
+# Rearrange Array to One Line
+
+<!-- difficulty: intermediate -->
+
+여러 줄로 펼쳐진 자바스크립트 객체 배열을 한 줄로 병합하고 후행 쉼표를 제거합니다.
+
+## Before
+
+```js
+const data = [
+  {
+    goal: 400,
+  },
+  {
+    goal: 300,
+  },
+  {
+    goal: 200,
+  },
+  {
+    goal: 300,
+  },
+  {
+    goal: 200,
+  },
+  {
+    goal: 278,
+  },
+  {
+    goal: 189,
+  },
+  {
+    goal: 239,
+  },
+  {
+    goal: 300,
+  },
+  {
+    goal: 200,
+  },
+  {
+    goal: 278,
+  },
+  {
+    goal: 189,
+  },
+  {
+    goal: 349,
+  },
+]
+```
+
+## After
+
+```js
+const data = [
+  { goal: 400 }, { goal: 300 }, { goal: 200 }, { goal: 300 }, { goal: 200 }, { goal: 278 }, { goal: 189 }, { goal: 239 }, { goal: 300 }, { goal: 200 }, { goal: 278 }, { goal: 189 }, { goal: 349 }
+]
+```
+
+## Command
+
+```
+:2,$-1j<cr>:2s/,\s*}/ }/g<cr>:2s/,\s*$//<cr>
+```
+
+1. `:2,$-1j` 2행부터 마지막 직전 행까지의 모든 객체 라인을 한 줄로 결합
+1. `<cr>` 명령 실행
+1. `:2s/,\s*}/ }/g` 각 객체 내부 프로퍼티 뒤의 후행 쉼표 제거
+1. `<cr>` 치환 명령 실행
+1. `:2s/,\s*$//` 배열 마지막 원소 뒤에 붙은 후행 쉼표 제거
+1. `<cr>` 치환 명령 실행
+
+# YAML to dotenv
+
+<!-- difficulty: beginner -->
+
+YAML 설정 파일에서 환경 변수 치환 구문(`!ENV`)을 찾아 `.env` 키 목록으로 변환합니다.
+
+## Before
+
+```yaml
+vimgolf:
+  logging:
+    level: INFO
+app:
+  postgres:
+    host: !ENV {POSTGRES_HOST}
+    port: !ENV {POSTGRES_PORT}
+  pulsar:
+    host: !ENV ${PULSAR_HOST}
+    port: !ENV ${PULSAR_PORT}
+    namespace: vimgolf
+    topic: !ENV ${PULSAR_TOPIC}
+```
+
+## After
+
+```sh
+POSTGRES_HOST=
+POSTGRES_PORT=
+PULSAR_HOST=
+PULSAR_PORT=
+PULSAR_TOPIC=
+```
+
+## Command
+
+```
+:v/!ENV/d<cr>:%s/.*{\([^}]*\)}.*/\1=/<cr>
+```
+
+1. `:v/!ENV/d` !ENV 지시어가 없는 모든 설정 줄 삭제
+1. `<cr>` 명령 실행
+1. `:%s/.*{\([^}]*\)}.*/\1=/` 중괄호 안의 환경 변수 이름을 추출하여 VAR= 형식으로 치환
+1. `<cr>` 치환 명령 실행
+
+# Even and Odd
+
+<!-- difficulty: intermediate -->
+
+0부터 99까지의 숫자 목록에서 홀수를 파일 끝으로 이동한 뒤, 짝수 줄과 홀수 줄로 각각 병합합니다.
+
+## Before
+
+```txt
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+
+```
+
+## After
+
+```txt
+0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98
+1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49 51 53 55 57 59 61 63 65 67 69 71 73 75 77 79 81 83 85 87 89 91 93 95 97 99
+```
+
+## Command
+
+```
+:g/^$/d<cr>
+
+:g/[13579]$/m$<cr>
+
+:1,50j<cr>
+
+:2,$j<cr>
+```
+
+1. `:g/^$/d` 빈 줄 삭제
+1. `<cr>` 명령 실행
+1. `:g/[13579]$/m$` 홀수로 끝나는 모든 줄을 파일 맨 끝으로 이동
+1. `<cr>` 명령 실행
+1. `:1,50j` 1~50행의 짝수들을 공백으로 연결
+1. `<cr>` 명령 실행
+1. `:2,$j` 2행부터 마지막 행까지의 홀수들을 공백으로 연결
+1. `<cr>` 명령 실행
 
 # Swap Quoted Strings
 
@@ -903,6 +1244,141 @@ Helix
 1. `:s/"\([^"]*\)" "\([^"]*\)"/` 두 개의 큰따옴표 문자열 매칭 및 캡처
 1. `"\2" "\1"/` 두 문자열의 위치 교환
 1. `<cr>` 명령 실행
+
+# From Brackets to Parens
+
+<!-- difficulty: intermediate -->
+
+배열 인덱스 접근 구문(`[i][j][k]`)을 함수 호출 형태(`(i, j, k)`)로 일괄 치환합니다.
+
+## Before
+
+```cpp
+
+int main() {
+	glm::vec3 umax(
+		(vx[i+1][j][k]-vx[i][j][k])/2,
+		(vy[i][j+1][k]-vy[i-1][j+1][k])/2,
+		(vz[i][j][k+1]-vz[i-1][j][k+1])/2
+	);
+	glm::vec3 umin(
+		(m_vx[i][j][k]-m_vx[i-1][j][k])/2,
+		(m_vy[i][j][k]-m_vy[i-1][j][k])/2,
+		(m_vz[i][j][k]-m_vz[i-1][j][k])/2
+	);
+}
+```
+
+## After
+
+```cpp
+int main() {
+	glm::vec3 umax(
+		(vx(i+1, j, k)-vx(i, j, k))/2,
+		(vy(i, j+1, k)-vy(i-1, j+1, k))/2,
+		(vz(i, j, k+1)-vz(i-1, j, k+1))/2
+	);
+	glm::vec3 umin(
+		(m_vx(i, j, k)-m_vx(i-1, j, k))/2,
+		(m_vy(i, j, k)-m_vy(i-1, j, k))/2,
+		(m_vz(i, j, k)-m_vz(i-1, j, k))/2
+	);
+}
+```
+
+## Command
+
+```
+dd:%s/\]\[/, /g<cr>:%s/\[/(/g<cr>:%s/\]/)/g<cr>
+```
+
+1. `dd` 첫 번째 빈 줄 삭제
+1. `:%s/\]\[/, /g` 인접한 대괄호 쌍(][)을 쉼표와 공백으로 치환
+1. `<cr>` 치환 명령 실행
+1. `:%s/\[/(/g` 남은 여는 대괄호([)를 여는 소괄호로 치환
+1. `<cr>` 치환 명령 실행
+1. `:%s/\]/)/g` 남은 닫는 대괄호(])를 닫는 소괄호로 치환
+1. `<cr>` 치환 명령 실행
+
+# Flip All Bits
+
+<!-- difficulty: intermediate -->
+
+2진수 리터럴 접두사(`0b`) 뒤의 모든 비트(0과 1)를 Vim의 내장 `tr()` 함수를 사용해 비트 반전(NOT 연산)합니다.
+
+## Before
+
+```py
+binary0 = 0b00000000_00001001_00010010_00011011
+binary1 = 0b00100100_00101101_00110110_00111111
+binary2 = 0b01000000_01001001_01010010_01011011
+binary3 = 0b01100100_01101101_01110110_01111111
+binary4 = 0b10000000_10001001_10010010_10011011
+binary5 = 0b10100100_10101101_10110110_10111111
+binary6 = 0b11000000_11001001_11010010_11011011
+binary7 = 0b11100100_11101101_11110110_11111111
+```
+
+## After
+
+```py
+binary0 = 0b11111111_11110110_11101101_11100100
+binary1 = 0b11011011_11010010_11001001_11000000
+binary2 = 0b10111111_10110110_10101101_10100100
+binary3 = 0b10011011_10010010_10001001_10000000
+binary4 = 0b01111111_01110110_01101101_01100100
+binary5 = 0b01011011_01010010_01001001_01000000
+binary6 = 0b00111111_00110110_00101101_00100100
+binary7 = 0b00011011_00010010_00001001_00000000
+```
+
+## Command
+
+```
+:%s/0b\zs.*/\=tr(submatch(0), '01', '10')/<cr>
+```
+
+1. `:%s/0b\zs.*/\=tr(submatch(0), '01', '10')/` 0b 뒤의 비트 영역에서 tr 함수로 0과 1을 상호 반전
+1. `<cr>` 치환 명령 실행
+
+# Swap Python Function Parameters
+
+<!-- difficulty: beginner -->
+
+함수 정의의 매개변수 순서를 바꾸고, 코드 내의 모든 주석을 삭제합니다.
+
+## Before
+
+```py
+# caculate area
+def calculate_area(width, height): # width, height
+    return width * height # return area
+
+area1 = calculate_area(5, 10)
+area2 = calculate_area(8, 12)
+```
+
+## After
+
+```py
+def calculate_area(height, width):
+    return width * height
+
+area1 = calculate_area(5, 10)
+area2 = calculate_area(8, 12)
+```
+
+## Command
+
+```
+dd:%s/ *#.*//<cr>:1s/width, height/height, width/<cr>
+```
+
+1. `dd` 첫 번째 줄의 단독 주석 삭제
+1. `:%s/ *#.*//` 코드 전체에서 인라인 주석(# 이후) 제거
+1. `<cr>` 치환 명령 실행
+1. `:1s/width, height/height, width/` 1행 함수 정의의 매개변수 순서 맞바꾸기
+1. `<cr>` 치환 명령 실행
 
 # Export from Rust Module
 
@@ -1033,6 +1509,115 @@ const userProfile = {
 1. `:%s/_\([a-z]\)\([^@]*:\)/\u\1\2/g<cr>` 콜론(:) 앞의 키 필드에 있는 밑줄(_)을 뒤의 문자를 대문자(\u\1)로 변환하며 치환 (이메일 제외)
 1. `:%s/user_profile/userProfile/<cr>` 변수명 camelCase 치환
 
+# Create JSON from a .env File
+
+<!-- difficulty: intermediate -->
+
+환경 변수 파일(`.env`)의 주석과 빈 줄을 정리하고 유효한 JSON 형식으로 변환합니다.
+
+## Before
+
+```sh
+# API Settings
+JOBS_API_URL=http://localhost:5000
+JOBS_BASE_URL=http://localhost:8000
+SCRAPERS_BASE_URL=http://localhost:9900
+
+# Database Settings
+JOBS_DATABASE_URI=mongodb://mongouser:mongopassword@127.0.0.1:27017/app
+
+# Redis Settings
+JOBS_REDIS_DSN=redis://127.0.0.1:6000
+
+# Data API
+DATA_BASE_URL=http://127.0.0.1:8900
+
+# Minio config
+JOBS_MINIO_SECURE=false
+JOBS_MINIO_ACCESS_KEY=miniouser
+JOBS_MINIO_SECRET_KEY=miniosecret
+JOBS_MINIO_HOST=127.0.0.1:9500
+JOBS_MINIO_DEFAULT_BUCKET=jobs
+JOBS_MINIO_REGION=us-west-1
+JOBS_MINIO_CREATE_BUCKETS=false
+JOBS_MINIO_RESULTS_FORMAT=results/{job.id}.json
+JOBS_MINIO_ARGUMENTS_FORMAT=arguments/{job.id}.json
+JOBS_MINIO_SERVICES_PATH=services/{job.service.bucket_name}
+JOBS_MINIO_LOGS_BUCKET=
+
+# RabbitMQ Settings
+JOBS_RABBITMQ_URI=amqp://rabbitmquser:rabbitmqpassword@127.0.0.1:5672
+
+# Package registry
+REGISTRY_TOKEN=g_dka000111222333444
+
+LOG_FORMAT=text
+
+# Slack notifications
+SLACK_TOKEN=
+LOGGING_CHANNEL=
+
+# Metadata API
+TEST_METADATA_BASE_URL=http://127.0.0.1:8801
+```
+
+## After
+
+```json
+{
+    "JOBS_API_URL": "http://localhost:5000",
+    "JOBS_BASE_URL": "http://localhost:8000",
+    "SCRAPERS_BASE_URL": "http://localhost:9900",
+    "JOBS_DATABASE_URI": "mongodb://mongouser:mongopassword@127.0.0.1:27017/app",
+    "JOBS_REDIS_DSN": "redis://127.0.0.1:6000",
+    "DATA_BASE_URL": "http://127.0.0.1:8900",
+    "JOBS_MINIO_SECURE": "false",
+    "JOBS_MINIO_ACCESS_KEY": "miniouser",
+    "JOBS_MINIO_SECRET_KEY": "miniosecret",
+    "JOBS_MINIO_HOST": "127.0.0.1:9500",
+    "JOBS_MINIO_DEFAULT_BUCKET": "jobs",
+    "JOBS_MINIO_REGION": "us-west-1",
+    "JOBS_MINIO_CREATE_BUCKETS": "false",
+    "JOBS_MINIO_RESULTS_FORMAT": "results/{job.id}.json",
+    "JOBS_MINIO_ARGUMENTS_FORMAT": "arguments/{job.id}.json",
+    "JOBS_MINIO_SERVICES_PATH": "services/{job.service.bucket_name}",
+    "JOBS_MINIO_LOGS_BUCKET": "",
+    "JOBS_RABBITMQ_URI": "amqp://rabbitmquser:rabbitmqpassword@127.0.0.1:5672",
+    "REGISTRY_TOKEN": "g_dka000111222333444",
+    "LOG_FORMAT": "text",
+    "SLACK_TOKEN": "",
+    "LOGGING_CHANNEL": "",
+    "TEST_METADATA_BASE_URL": "http://127.0.0.1:8801"
+}
+```
+
+## Command
+
+```
+:v/=/d<cr>
+
+ggO{<esc>Go}<esc>
+
+:2,$-1s/^\([^=]*\)=\(.*\)$/    "\1": "\2",/<cr>
+
+:$-1s/,$//<cr>
+```
+
+1. `:v/=/d` 등호(=)가 없는 모든 줄(주석 및 빈 줄) 삭제
+1. `<cr>` 명령 실행
+1. `gg` 문서의 첫 줄로 이동
+1. `O` 윗 줄에 새 줄 추가하고 입력 모드 전환
+1. `{` 여는 중괄호 입력
+1. `<esc>` 일반 모드로 복귀
+1. `G` 문서의 마지막 줄로 이동
+1. `o` 아랫 줄에 새 줄 추가하고 입력 모드 전환
+1. `}` 닫는 중괄호 입력
+1. `<esc>` 일반 모드로 복귀
+1. `:2,$-1s/^\([^=]*\)=\(.*\)$/    "\1": "\2",/` 2번 줄부터 마지막 직전 줄까지 KEY=VALUE 형식을 JSON 키-값으로 치환
+1. `<cr>` 치환 명령 실행
+1. `:$-1s/,$//` 마지막 데이터 줄의 불필요한 쉼표 제거
+1. `<cr>` 치환 명령 실행
+
 # Invert Dictionary
 
 <!-- difficulty: advanced -->
@@ -1122,6 +1707,55 @@ var points_to_color = {
 
 1. `:1s/color_to_points/points_to_color/<cr>` 첫 줄 변수명 치환
 1. `:2,8s/\(\s*\)\(.*\) = \(.*\),/\1\3 = \2,/<cr>` 2~8행 들여쓰기와 쉼표를 유지하며 등호 앞뒤 내용 치환
+
+# Changing Date Formats
+
+<!-- difficulty: intermediate -->
+
+DMY(일/월/연) 및 MDY(월/일/연) 형식으로 혼재된 날짜들을 YMD(연/월/일) 형식으로 일괄 치환합니다.
+
+## Before
+
+```txt
+(DMY): 09/10/2024  (DMY): 09/07/2024  (DMY): 10/09/2024
+(MDY): 12/12/2024  (MDY): 10/12/2024  (MDY): 11/10/2024
+(MDY): 08/09/2024  (MDY): 06/09/2024  (DMY): 08/03/2024
+(MDY): 11/19/2024  (DMY): 12/12/2024  (MDY): 12/19/2024
+(DMY): 14/11/2024  (DMY): 13/11/2024  (DMY): 12/11/2024
+(MDY): 10/12/2024  (DMY): 12/10/2024  (MDY): 09/12/2024
+(DMY): 06/09/2024  (DMY): 24/07/2024  (DMY): 15/09/2024
+(MDY): 05/19/2024  (MDY): 11/20/2024  (MDY): 02/19/2024
+(DMY): 14/02/2024  (MDY): 07/06/2024  (DMY): 19/12/2024
+(DMY): 10/08/2024  (MDY): 12/09/2024  (MDY): 09/09/2024
+```
+
+## After
+
+```txt
+(YMD): 2024/10/09  (YMD): 2024/07/09  (YMD): 2024/09/10
+(YMD): 2024/12/12  (YMD): 2024/10/12  (YMD): 2024/11/10
+(YMD): 2024/08/09  (YMD): 2024/06/09  (YMD): 2024/03/08
+(YMD): 2024/11/19  (YMD): 2024/12/12  (YMD): 2024/12/19
+(YMD): 2024/11/14  (YMD): 2024/11/13  (YMD): 2024/11/12
+(YMD): 2024/10/12  (YMD): 2024/10/12  (YMD): 2024/09/12
+(YMD): 2024/09/06  (YMD): 2024/07/24  (YMD): 2024/09/15
+(YMD): 2024/05/19  (YMD): 2024/11/20  (YMD): 2024/02/19
+(YMD): 2024/02/14  (YMD): 2024/07/06  (YMD): 2024/12/19
+(YMD): 2024/08/10  (YMD): 2024/12/09  (YMD): 2024/09/09
+```
+
+## Command
+
+```
+:%s#(DMY): \(\d\+\)/\(\d\+\)/\(\d\+\)#(YMD): \3/\2/\1#g<cr>
+
+:%s#(MDY): \(\d\+\)/\(\d\+\)/\(\d\+\)#(YMD): \3/\1/\2#g<cr>
+```
+
+1. `:%s#(DMY): \(\d\+\)/\(\d\+\)/\(\d\+\)#(YMD): \3/\2/\1#g` DMY 형식(일/월/연)을 그룹으로 캡처하여 YMD 형식(연/월/일)으로 치환
+1. `<cr>` 명령 실행
+1. `:%s#(MDY): \(\d\+\)/\(\d\+\)/\(\d\+\)#(YMD): \3/\1/\2#g` MDY 형식(월/일/연)을 그룹으로 캡처하여 YMD 형식(연/월/일)으로 치환
+1. `<cr>` 명령 실행
 
 # CSV to SQL
 
@@ -1437,6 +2071,14 @@ const user_profile = {first_name: "John"};
   <source src="generated/increment_numbers.mp4">
 </video>
 
+### [Delete the Last Function Argument in Python](delete_last_argument.md)
+
+함수 호출문의 마지막 인자와 앞의 공백을 모션 명령으로 빠르게 삭제합니다.
+
+<video autoplay controls loop>
+  <source src="generated/delete_last_argument.mp4">
+</video>
+
 ### [Toggle Comment](toggle_comment.md)
 
 여러 줄을 한 번에 주석으로 바꿉니다.
@@ -1549,12 +2191,36 @@ const user_profile = {first_name: "John"};
   <source src="generated/swap_columns.mp4">
 </video>
 
+### [Filling Braces](filling_braces.md)
+
+중괄호 안으로 이동하여 지정된 속성값을 입력합니다.
+
+<video autoplay controls loop>
+  <source src="generated/filling_braces.mp4">
+</video>
+
+### [YAML to dotenv](yaml_to_dotenv.md)
+
+YAML 설정 파일에서 환경 변수 치환 구문(`!ENV`)을 찾아 `.env` 키 목록으로 변환합니다.
+
+<video autoplay controls loop>
+  <source src="generated/yaml_to_dotenv.mp4">
+</video>
+
 ### [Swap Quoted Strings](swap_quoted_strings.md)
 
 두 따옴표 내용의 위치를 바꿉니다.
 
 <video autoplay controls loop>
   <source src="generated/swap_quoted_strings.mp4">
+</video>
+
+### [Swap Python Function Parameters](swap_python_params.md)
+
+함수 정의의 매개변수 순서를 바꾸고, 코드 내의 모든 주석을 삭제합니다.
+
+<video autoplay controls loop>
+  <source src="generated/swap_python_params.mp4">
 </video>
 
 ## Intermediate (중급)
@@ -1599,6 +2265,38 @@ Visual Block 모드로 여러 줄 앞에 접두사를 동시에 삽입합니다.
   <source src="generated/text_into_array.mp4">
 </video>
 
+### [Rearrange Array to One Line](rearrange_array_one_line.md)
+
+여러 줄로 펼쳐진 자바스크립트 객체 배열을 한 줄로 병합하고 후행 쉼표를 제거합니다.
+
+<video autoplay controls loop>
+  <source src="generated/rearrange_array_one_line.mp4">
+</video>
+
+### [Even and Odd](even_and_odd.md)
+
+0부터 99까지의 숫자 목록에서 홀수를 파일 끝으로 이동한 뒤, 짝수 줄과 홀수 줄로 각각 병합합니다.
+
+<video autoplay controls loop>
+  <source src="generated/even_and_odd.mp4">
+</video>
+
+### [From Brackets to Parens](brackets_to_parens.md)
+
+배열 인덱스 접근 구문(`[i][j][k]`)을 함수 호출 형태(`(i, j, k)`)로 일괄 치환합니다.
+
+<video autoplay controls loop>
+  <source src="generated/brackets_to_parens.mp4">
+</video>
+
+### [Flip All Bits](flip_all_bits.md)
+
+2진수 리터럴 접두사(`0b`) 뒤의 모든 비트(0과 1)를 Vim의 내장 `tr()` 함수를 사용해 비트 반전(NOT 연산)합니다.
+
+<video autoplay controls loop>
+  <source src="generated/flip_all_bits.mp4">
+</video>
+
 ### [Export from Rust Module](export_from_mod.md)
 
 각 모듈에 포함된 함수를 re-export(pub use)합니다.
@@ -1621,6 +2319,22 @@ Visual Block 모드로 여러 줄 앞에 접두사를 동시에 삽입합니다.
 
 <video autoplay controls loop>
   <source src="generated/snake_case_to_camel_case.mp4">
+</video>
+
+### [Create JSON from a .env File](json_from_env.md)
+
+환경 변수 파일(`.env`)의 주석과 빈 줄을 정리하고 유효한 JSON 형식으로 변환합니다.
+
+<video autoplay controls loop>
+  <source src="generated/json_from_env.mp4">
+</video>
+
+### [Changing Date Formats](changing_date_formats.md)
+
+DMY(일/월/연) 및 MDY(월/일/연) 형식으로 혼재된 날짜들을 YMD(연/월/일) 형식으로 일괄 치환합니다.
+
+<video autoplay controls loop>
+  <source src="generated/changing_date_formats.mp4">
 </video>
 
 ## Advanced (고급)
