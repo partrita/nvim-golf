@@ -227,61 +227,6 @@ J
 
 1. `J` 현재 줄과 다음 줄을 공백을 두고 합치기
 
-# Extend Delete Words
-
-&lt;!-- difficulty: beginner --&gt;
-
-앞의 두 단어를 지웁니다.
-
-## Before
-
-```text
-one two three four
-```
-
-## After
-
-```text
-three four
-```
-
-## Command
-
-```
-2dw
-```
-
-1. `2dw` 두 단어를 삭제
-
-# Swap Lines
-
-&lt;!-- difficulty: beginner --&gt;
-
-두 줄의 순서를 바꿉니다.
-
-## Before
-
-```text
-first
-second
-```
-
-## After
-
-```text
-second
-first
-```
-
-## Command
-
-```
-ddp
-```
-
-1. `dd` 첫 번째 줄을 잘라내기
-1. `p` 아래 줄에 붙여넣기
-
 # Delete Blank Line
 
 &lt;!-- difficulty: beginner --&gt;
@@ -312,6 +257,35 @@ jdd
 1. `j` 빈 줄로 이동
 1. `dd` 현재 줄 삭제
 
+# Swap Lines
+
+&lt;!-- difficulty: beginner --&gt;
+
+두 줄의 순서를 바꿉니다.
+
+## Before
+
+```text
+first
+second
+```
+
+## After
+
+```text
+second
+first
+```
+
+## Command
+
+```
+ddp
+```
+
+1. `dd` 첫 번째 줄을 잘라내기
+1. `p` 아래 줄에 붙여넣기
+
 # Rotate Main Selection
 
 &lt;!-- difficulty: beginner --&gt;
@@ -340,31 +314,31 @@ $r9
 1. `r` 한 글자 교체
 1. `9` 교체할 문자 9 입력
 
-# Toggle Word Case
+# Extend Delete Words
 
 &lt;!-- difficulty: beginner --&gt;
 
-단어의 대소문자를 뒤집습니다.
+앞의 두 단어를 지웁니다.
 
 ## Before
 
 ```text
-hello
+one two three four
 ```
 
 ## After
 
 ```text
-HELLO
+three four
 ```
 
 ## Command
 
 ```
-gUiw
+2dw
 ```
 
-1. `gUiw` 현재 단어를 모두 대문자로 변환
+1. `2dw` 두 단어를 삭제
 
 # Duplicate Line
 
@@ -395,6 +369,32 @@ yyp.
 1. `yy` 현재 줄 복사
 1. `p` 아래 줄에 붙여넣기
 1. `.` 이전 작업(붙여넣기) 반복
+
+# Toggle Word Case
+
+&lt;!-- difficulty: beginner --&gt;
+
+단어의 대소문자를 뒤집습니다.
+
+## Before
+
+```text
+hello
+```
+
+## After
+
+```text
+HELLO
+```
+
+## Command
+
+```
+gUiw
+```
+
+1. `gUiw` 현재 단어를 모두 대문자로 변환
 
 # Increment Numbers
 
@@ -583,6 +583,38 @@ ciwtotal&lt;esc&gt;
 1. `total` 새 변수 이름 입력
 1. `&lt;esc&gt;` 노멀 모드로 복귀
 
+# CSV to Lines
+
+&lt;!-- difficulty: beginner --&gt;
+
+쉼표로 구분된 한 줄을 여러 줄로 나눕니다.
+
+## Before
+
+```text
+apple,banana,cherry
+```
+
+## After
+
+```text
+apple
+banana
+cherry
+```
+
+## Command
+
+```
+:s/,/\r/g&lt;cr&gt;
+```
+
+1. `:s` 현재 줄 치환 명령
+1. `/,/` 쉼표(,) 검색
+1. `\r/` 줄바꿈(\r)으로 교체
+1. `g` 줄 내 모든 일치 항목에 적용
+1. `&lt;cr&gt;` 명령 실행
+
 # Add Semicolons
 
 &lt;!-- difficulty: beginner --&gt;
@@ -647,38 +679,6 @@ const c = 3;
 
 1. `:%s/^-/` 줄 시작 부분의 하이픈(-) 매칭
 1. `*/` 별표(*)로 교체
-1. `&lt;cr&gt;` 명령 실행
-
-# CSV to Lines
-
-&lt;!-- difficulty: beginner --&gt;
-
-쉼표로 구분된 한 줄을 여러 줄로 나눕니다.
-
-## Before
-
-```text
-apple,banana,cherry
-```
-
-## After
-
-```text
-apple
-banana
-cherry
-```
-
-## Command
-
-```
-:s/,/\r/g&lt;cr&gt;
-```
-
-1. `:s` 현재 줄 치환 명령
-1. `/,/` 쉼표(,) 검색
-1. `\r/` 줄바꿈(\r)으로 교체
-1. `g` 줄 내 모든 일치 항목에 적용
 1. `&lt;cr&gt;` 명령 실행
 
 # Indent Lines
@@ -1377,34 +1377,6 @@ PULSAR_TOPIC=
 1. `:2,$j` 2행부터 마지막 행까지의 홀수들을 공백으로 연결
 1. `&lt;cr&gt;` 명령 실행
 
-# Swap Quoted Strings
-
-&lt;!-- difficulty: beginner --&gt;
-
-두 따옴표 내용의 위치를 바꿉니다.
-
-## Before
-
-```text
-"foo" "bar"
-```
-
-## After
-
-```text
-"bar" "foo"
-```
-
-## Command
-
-```
-:s/"\([^"]*\)" "\([^"]*\)"/"\2" "\1"/&lt;cr&gt;
-```
-
-1. `:s/"\([^"]*\)" "\([^"]*\)"/` 두 개의 큰따옴표 문자열 매칭 및 캡처
-1. `"\2" "\1"/` 두 문자열의 위치 교환
-1. `&lt;cr&gt;` 명령 실행
-
 # From Brackets to Parens
 
 &lt;!-- difficulty: intermediate --&gt;
@@ -1459,6 +1431,34 @@ dd:%s/\]\[/, /g&lt;cr&gt;:%s/\[/(/g&lt;cr&gt;:%s/\]/)/g&lt;cr&gt;
 1. `&lt;cr&gt;` 치환 명령 실행
 1. `:%s/\]/)/g` 남은 닫는 대괄호(])를 닫는 소괄호로 치환
 1. `&lt;cr&gt;` 치환 명령 실행
+
+# Swap Quoted Strings
+
+&lt;!-- difficulty: beginner --&gt;
+
+두 따옴표 내용의 위치를 바꿉니다.
+
+## Before
+
+```text
+"foo" "bar"
+```
+
+## After
+
+```text
+"bar" "foo"
+```
+
+## Command
+
+```
+:s/"\([^"]*\)" "\([^"]*\)"/"\2" "\1"/&lt;cr&gt;
+```
+
+1. `:s/"\([^"]*\)" "\([^"]*\)"/` 두 개의 큰따옴표 문자열 매칭 및 캡처
+1. `"\2" "\1"/` 두 문자열의 위치 교환
+1. `&lt;cr&gt;` 명령 실행
 
 # Flip All Bits
 
@@ -2169,35 +2169,35 @@ const user_profile = {first_name: "John"};
 <video autoplay controls loop>
   <source src="generated/join_lines.mp4">
 </video>
-<h3 id="extend-delete-words"><a class="header" href="#extend-delete-words"><a href="extend_delete_words.html">Extend Delete Words</a></a></h3>
-<p>앞의 두 단어를 지웁니다.</p>
+<h3 id="delete-blank-line"><a class="header" href="#delete-blank-line"><a href="delete_blank_line.html">Delete Blank Line</a></a></h3>
+<p>빈 줄을 삭제합니다.</p>
 <video autoplay controls loop>
-  <source src="generated/extend_delete_words.mp4">
+  <source src="generated/delete_blank_line.mp4">
 </video>
 <h3 id="swap-lines"><a class="header" href="#swap-lines"><a href="swap_lines.html">Swap Lines</a></a></h3>
 <p>두 줄의 순서를 바꿉니다.</p>
 <video autoplay controls loop>
   <source src="generated/swap_lines.mp4">
 </video>
-<h3 id="delete-blank-line"><a class="header" href="#delete-blank-line"><a href="delete_blank_line.html">Delete Blank Line</a></a></h3>
-<p>빈 줄을 삭제합니다.</p>
-<video autoplay controls loop>
-  <source src="generated/delete_blank_line.mp4">
-</video>
 <h3 id="rotate-main-selection"><a class="header" href="#rotate-main-selection"><a href="rotate_main_selection.html">Rotate Main Selection</a></a></h3>
 <p>마지막 숫자만 바꿉니다.</p>
 <video autoplay controls loop>
   <source src="generated/rotate_main_selection.mp4">
 </video>
-<h3 id="toggle-word-case"><a class="header" href="#toggle-word-case"><a href="toggle_word_case.html">Toggle Word Case</a></a></h3>
-<p>단어의 대소문자를 뒤집습니다.</p>
+<h3 id="extend-delete-words"><a class="header" href="#extend-delete-words"><a href="extend_delete_words.html">Extend Delete Words</a></a></h3>
+<p>앞의 두 단어를 지웁니다.</p>
 <video autoplay controls loop>
-  <source src="generated/toggle_word_case.mp4">
+  <source src="generated/extend_delete_words.mp4">
 </video>
 <h3 id="duplicate-line"><a class="header" href="#duplicate-line"><a href="duplicate_line.html">Duplicate Line</a></a></h3>
 <p>한 줄을 복사해 세 줄로 늘립니다.</p>
 <video autoplay controls loop>
   <source src="generated/duplicate_line.mp4">
+</video>
+<h3 id="toggle-word-case"><a class="header" href="#toggle-word-case"><a href="toggle_word_case.html">Toggle Word Case</a></a></h3>
+<p>단어의 대소문자를 뒤집습니다.</p>
+<video autoplay controls loop>
+  <source src="generated/toggle_word_case.mp4">
 </video>
 <h3 id="increment-numbers"><a class="header" href="#increment-numbers"><a href="increment_numbers.html">Increment Numbers</a></a></h3>
 <p>여러 숫자를 한 번에 1씩 증가시킵니다.</p>
@@ -2229,6 +2229,11 @@ const user_profile = {first_name: "John"};
 <video autoplay controls loop>
   <source src="generated/replace_identifier.mp4">
 </video>
+<h3 id="csv-to-lines"><a class="header" href="#csv-to-lines"><a href="csv_to_lines.html">CSV to Lines</a></a></h3>
+<p>쉼표로 구분된 한 줄을 여러 줄로 나눕니다.</p>
+<video autoplay controls loop>
+  <source src="generated/csv_to_lines.mp4">
+</video>
 <h3 id="add-semicolons"><a class="header" href="#add-semicolons"><a href="add_semicolons.html">Add Semicolons</a></a></h3>
 <p>각 줄 끝에 세미콜론을 붙입니다.</p>
 <video autoplay controls loop>
@@ -2238,11 +2243,6 @@ const user_profile = {first_name: "John"};
 <p>여러 줄의 앞 기호를 한 번에 바꿉니다.</p>
 <video autoplay controls loop>
   <source src="generated/replace_punctuation.mp4">
-</video>
-<h3 id="csv-to-lines"><a class="header" href="#csv-to-lines"><a href="csv_to_lines.html">CSV to Lines</a></a></h3>
-<p>쉼표로 구분된 한 줄을 여러 줄로 나눕니다.</p>
-<video autoplay controls loop>
-  <source src="generated/csv_to_lines.mp4">
 </video>
 <h3 id="indent-lines"><a class="header" href="#indent-lines"><a href="indent_lines.html">Indent Lines</a></a></h3>
 <p>여러 줄을 한 번에 들여씁니다.</p>
